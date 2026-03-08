@@ -69,6 +69,13 @@ public class SwerveModule {
         }
     }
 
+public void setTankDriveState(double speed) {
+    driveDutyCycle.Output = speed;
+            mDriveMotor.setControl(driveDutyCycle);
+            driveDutyCycle.Output = 0;
+            mAngleMotor.setControl(driveDutyCycle);
+}
+
     public Rotation2d getCANcoder(){
         return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValueAsDouble());
     }

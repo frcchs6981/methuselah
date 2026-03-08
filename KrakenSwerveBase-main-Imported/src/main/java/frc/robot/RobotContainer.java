@@ -21,7 +21,7 @@ public class RobotContainer {
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
-    private final int strafeAxis = XboxController.Axis.kLeftX.value;
+    private final int strafeAxis = XboxController.Axis.kRightY.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
     /* Driver Buttons */
@@ -32,18 +32,15 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
 
     /*Shooter Button */
-    private final JoystickButton ShootyMcShootface = new JoystickButton(driver, XboxController.Button.kB.value);
+    //private final JoystickButton ShootyMcShootface = new JoystickButton(driver, XboxController.Button.kB.value);
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         s_Swerve.setDefaultCommand(
-            new TeleopSwerve(
+            new TeleopTankDrive(
                 s_Swerve, 
-                () -> -driver.getRawAxis(translationAxis), 
-                () -> -driver.getRawAxis(strafeAxis), 
-                () -> -driver.getRawAxis(rotationAxis), 
-                () -> robotCentric.getAsBoolean()
-            )
+                () -> driver.getRawAxis(translationAxis), 
+                () -> driver.getRawAxis(strafeAxis))
         );
 
         // Configure the button bindings

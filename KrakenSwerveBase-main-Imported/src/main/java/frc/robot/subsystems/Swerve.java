@@ -29,20 +29,13 @@ public class Swerve extends SubsystemBase {
     public Pigeon2 gyro;
 
     private final ReentrantLock swerveModLock = new ReentrantLock();
-    private final Notifier odoNotifier;
+    //private final Notifier odoNotifier;
 
     public Swerve() {
-        gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.Swerve.CanBus);
-        gyro.getConfigurator().apply(new Pigeon2Configuration());
-        gyro.setYaw(0);
-
-
-
-        boolean isFastOdo = Constants.Swerve.isOnCANivore;
-        odoNotifier = new Notifier(this::updateSwerveOdom);
-        odoNotifier.startPeriodic(isFastOdo ? 1.0 / 250.0 : 1.0 / 50.0); 
-
-
+        //gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.Swerve.CanBus);
+       // gyro.getConfigurator().apply(new Pigeon2Configuration());
+        //gyro.setYaw(0);//
+        
 
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
@@ -50,6 +43,10 @@ public class Swerve extends SubsystemBase {
             new SwerveModule(2, Constants.Swerve.Mod2.constants),
             new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
+
+        boolean isFastOdo = Constants.Swerve.isOnCANivore;
+        //odoNotifier = new Notifier(this::updateSwerveOdom);
+        //odoNotifier.startPeriodic(isFastOdo ? 1.0 / 250.0 : 1.0 / 50.0); 
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
     }
@@ -76,7 +73,12 @@ public class Swerve extends SubsystemBase {
         }
         swerveModLock.unlock();
     }    
-
+public void tankdrive(double left, double right){
+        mSwerveMods[0].setTankDriveState(left);
+        mSwerveMods[2].setTankDriveState(left);
+        mSwerveMods[1].setTankDriveState(right);
+        mSwerveMods[3].setTankDriveState(right);
+}
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
@@ -135,7 +137,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public Rotation2d getGyroYaw() {
-        return Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble());
+        return Rotation2d.fromDegrees(0);//gyro.getYaw().getValueAsDouble());
     }
 
     public Command resetModulesToAbsolute(){
