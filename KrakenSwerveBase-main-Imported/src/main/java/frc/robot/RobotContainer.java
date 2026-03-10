@@ -21,7 +21,8 @@ public class RobotContainer {
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
-    private final int strafeAxis = XboxController.Axis.kRightY.value;
+    private final int strafeAxis = XboxController.Axis.kLeftX
+    .value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
     /* Driver Buttons */
@@ -37,11 +38,12 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         s_Swerve.setDefaultCommand(
-            new TeleopTankDrive(
+            new TeleopSwerve(
                 s_Swerve, 
                 () -> driver.getRawAxis(translationAxis), 
-                () -> driver.getRawAxis(strafeAxis))
-        );
+                () -> driver.getRawAxis(strafeAxis),
+                () -> driver.getRawAxis(rotationAxis),
+                () -> true)); 
 
         // Configure the button bindings
         configureButtonBindings();

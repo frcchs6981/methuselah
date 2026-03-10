@@ -1,5 +1,6 @@
 package frc.lib.util;
 
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -12,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 import frc.lib.math.Conversions;
+import frc.robot.CTREConfigs;
 import frc.robot.Constants;
 import frc.robot.Robot;
 
@@ -32,22 +34,22 @@ public class SwerveModule {
     /* angle motor control requests */
     private final PositionVoltage anglePosition = new PositionVoltage(0).withEnableFOC(Constants.Swerve.focEnabled);
 
-    public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants){
+    public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants, CANcoderConfiguration cancoderconfig){
         this.moduleNumber = moduleNumber;
         this.angleOffset = moduleConstants.angleOffset;
         
         /* Angle Encoder Config */
         angleEncoder = new CANcoder(moduleConstants.cancoderID, Constants.Swerve.CanBus);
-        angleEncoder.getConfigurator().apply(Robot.ctreConfigs.swerveCANcoderConfig);
+        angleEncoder.getConfigurator().apply(cancoderconfig);
 
         /* Angle Motor Config */
         mAngleMotor = new TalonFX(moduleConstants.angleMotorID, Constants.Swerve.CanBus);
-        mAngleMotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfig);
+        mAngleMotor.getConfigurator().apply(CTREConfigs.getSteerConfig());
         resetToAbsolute();
 
         /* Drive Motor Config */
         mDriveMotor = new TalonFX(moduleConstants.driveMotorID);
-        mDriveMotor.getConfigurator().apply(Robot.ctreConfigs.swerveDriveFXConfig);
+        mDriveMotor.getConfigurator().apply(CTREConfigs.getDriveConfig());
         mDriveMotor.getConfigurator().setPosition(0.0);
     }
 
@@ -82,7 +84,7 @@ public void setTankDriveState(double speed) {
 
     public void resetToAbsolute(){
         Timer.delay(1);
-        double absolutePosition = getCANcoder().getRotations() - angleOffset.getRotations();
+        double absolutePosition = getCANcoder().getRotations();
         mAngleMotor.setPosition(absolutePosition);
     }
 

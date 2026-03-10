@@ -56,8 +56,8 @@ public class COTSTalonFXSwerveConstants {
             public static final COTSTalonFXSwerveConstants KrakenX60(double driveGearRatio){
                 double wheelDiameter = Units.inchesToMeters(4.0);
         
-                /** (396 / 35) : 1 */
-                double angleGearRatio = ((396.0 / 35.0) / 1.0);
+                /** (88 /) : 1 */
+                double angleGearRatio = 11.01;
         
                 double angleKP = 100.0; //TODO: This must be tuned to specific robot
                 double angleKI = 0.0;

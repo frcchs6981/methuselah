@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.lib.util.SwerveModule;
+import frc.robot.CTREConfigs;
 import frc.robot.Constants;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -38,10 +39,10 @@ public class Swerve extends SubsystemBase {
         
 
         mSwerveMods = new SwerveModule[] {
-            new SwerveModule(0, Constants.Swerve.Mod0.constants),
-            new SwerveModule(1, Constants.Swerve.Mod1.constants),
-            new SwerveModule(2, Constants.Swerve.Mod2.constants),
-            new SwerveModule(3, Constants.Swerve.Mod3.constants)
+            new SwerveModule(0, Constants.Swerve.Mod0.constants, CTREConfigs.getFLCANCoderConf()),
+            new SwerveModule(1, Constants.Swerve.Mod1.constants,CTREConfigs.getFRCANCoderConf()),
+            new SwerveModule(2, Constants.Swerve.Mod2.constants,CTREConfigs.getBLCANCoderConf()),
+            new SwerveModule(3, Constants.Swerve.Mod3.constants,CTREConfigs.getBRCANCoderConf())
         };
 
         boolean isFastOdo = Constants.Swerve.isOnCANivore;
@@ -73,12 +74,12 @@ public class Swerve extends SubsystemBase {
         }
         swerveModLock.unlock();
     }    
-public void tankdrive(double left, double right){
+/*public void tankdrive(double left, double right){
         mSwerveMods[0].setTankDriveState(left);
         mSwerveMods[2].setTankDriveState(left);
         mSwerveMods[1].setTankDriveState(right);
         mSwerveMods[3].setTankDriveState(right);
-}
+}*/
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
