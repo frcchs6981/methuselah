@@ -17,7 +17,7 @@ public final class Constants {
     public static final double stickDeadband = 0.1;
 
     public static final class Swerve {
-        // public static final int pigeonID = 20;
+    
         public static final String CanBus = "rio"; //TODO: if on canivore, change this to CANivore name or serial number
 
         public static final boolean focEnabled = false; //TODO: This must be tuned to specific robot

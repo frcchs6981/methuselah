@@ -12,7 +12,9 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
-import com.ctre.phoenix6.hardware.Pigeon2;
+
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -27,15 +29,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
-    public Pigeon2 gyro;
+    public ADIS16470_IMU gyro;
 
     private final ReentrantLock swerveModLock = new ReentrantLock();
     //private final Notifier odoNotifier;
 
     public Swerve() {
-        //gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.Swerve.CanBus);
-       // gyro.getConfigurator().apply(new Pigeon2Configuration());
-        //gyro.setYaw(0);//
+        gyro = new ADIS16470_IMU();
+        gyro.setGyroAngleZ(0);
         
 
         mSwerveMods = new SwerveModule[] {
