@@ -11,16 +11,13 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.ctre.phoenix6.configs.Pigeon2Configuration;
-
+//import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
-import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -32,9 +29,9 @@ public class Swerve extends SubsystemBase {
     public ADIS16470_IMU gyro;
 
     private final ReentrantLock swerveModLock = new ReentrantLock();
-    //private final Notifier odoNotifier;
 
     public Swerve() {
+        //Creates Gyro and sets used angle (Z) to 0
         gyro = new ADIS16470_IMU();
         gyro.setGyroAngleZ(0);
         
@@ -46,23 +43,20 @@ public class Swerve extends SubsystemBase {
             new SwerveModule(3, Constants.Swerve.Mod3.constants,CTREConfigs.getBRCANCoderConf())
         };
 
-        boolean isFastOdo = Constants.Swerve.isOnCANivore;
-        //odoNotifier = new Notifier(this::updateSwerveOdom);
-        //odoNotifier.startPeriodic(isFastOdo ? 1.0 / 250.0 : 1.0 / 50.0); 
-
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
-                fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
+                fieldRelative ? 
+                                ChassisSpeeds.fromFieldRelativeSpeeds( // Drives Field Relative
                                     translation.getX(), 
                                     translation.getY(), 
                                     rotation, 
                                     getHeading()
                                 )
-                                : new ChassisSpeeds(
+                              : new ChassisSpeeds( // Drives Robot Relative
                                     translation.getX(), 
                                     translation.getY(), 
                                     rotation)
@@ -75,12 +69,7 @@ public class Swerve extends SubsystemBase {
         }
         swerveModLock.unlock();
     }    
-/*public void tankdrive(double left, double right){
-        mSwerveMods[0].setTankDriveState(left);
-        mSwerveMods[2].setTankDriveState(left);
-        mSwerveMods[1].setTankDriveState(right);
-        mSwerveMods[3].setTankDriveState(right);
-}*/
+
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
@@ -152,10 +141,6 @@ public class Swerve extends SubsystemBase {
                 swerveModLock.unlock();
             }, 
             this);
-    }
-
-    private void updateSwerveOdom() { // function will be called 250 times a second
-        swerveOdometry.update(getGyroYaw(), getModulePositions());
     }
 
     @Override

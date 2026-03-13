@@ -18,6 +18,7 @@ public class TeleopSwerve extends Command {
     private DoubleSupplier rotationSup;
     private BooleanSupplier robotCentricSup;
 
+    //Inputs values from RobotContainer.java regarding movement inputs and Field Relative
     public TeleopSwerve(Swerve s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
@@ -30,10 +31,12 @@ public class TeleopSwerve extends Command {
 
     @Override
     public void execute() {
+        //Uses values from TeleopSwerve() to drive
+        
         /* Get Values, Deadband*/
-        double translationVal = MathUtil.applyDeadband(-translationSup.getAsDouble()*.8, Constants.stickDeadband);
-        double strafeVal = MathUtil.applyDeadband(-strafeSup.getAsDouble()*.8, Constants.stickDeadband);
-        double rotationVal = MathUtil.applyDeadband(-rotationSup.getAsDouble()*.8, Constants.stickDeadband);
+        double translationVal = MathUtil.applyDeadband(-translationSup.getAsDouble(), Constants.stickDeadband);
+        double strafeVal = MathUtil.applyDeadband(-strafeSup.getAsDouble(), Constants.stickDeadband);
+        double rotationVal = MathUtil.applyDeadband(-rotationSup.getAsDouble(), Constants.stickDeadband);
 
         /* Drive */
         s_Swerve.drive(
