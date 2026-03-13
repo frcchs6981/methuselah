@@ -41,7 +41,7 @@ public class Shooter {
   public void teleopPeriodic() {
 
     //Shooter Command 
-     m_launchWheel.set(ControlHandlerD.getRawAxis(2) * 0.8);
+     m_launchWheel.set(ControlHandlerD.getRawAxis(2)*0.8);
 
     if(ControlHandlerD.getRawButton(1))
     {

@@ -139,7 +139,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public Rotation2d getGyroYaw() {
-        return Rotation2d.fromDegrees(0);//gyro.getYaw().getValueAsDouble());
+        return Rotation2d.fromDegrees(gyro.getAngle());
     }
 
     public Command resetModulesToAbsolute(){
