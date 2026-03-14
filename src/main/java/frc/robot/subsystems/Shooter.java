@@ -30,7 +30,21 @@ public class Shooter {
 
   public void shooterPeriodic() {
     //Sets Launch Speed based on Current Left Trigger
-     m_launchWheel.set(ControlHandlerD.getRawAxis(2)*0.8);
+    //m_launchWheel.set(ControlHandlerD.getRawAxis(2)*0.8);
+ 
+    //Sets Launch Speed based on three stages (HI, MED, LO)
+    if(ControlHandlerD.getRawButton(7))
+    {
+      m_launchWheel.set(0.85); 
+    }
+    else if(ControlHandlerD.getRawButton(9))
+    {
+      m_launchWheel.set(0.7);
+    }
+    else if(ControlHandlerD.getRawButton(11))
+    {
+      m_launchWheel.set(0.6);
+    }
 
     //Sets Toggle to A button
     if(ControlHandlerD.getRawButton(1))
