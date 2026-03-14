@@ -20,7 +20,7 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;*/
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, 4);
+    private final JoystickButton zeroGyro = new JoystickButton(driver, 5);
     //private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kX.value);
 
     /* Subsystems */
