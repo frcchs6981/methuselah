@@ -3,8 +3,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -14,12 +15,12 @@ public class RobotContainer {
     private final Joystick driver = new Joystick(0);
 
     /* Drive Controls */
-    private final int translationAxis = XboxController.Axis.kLeftY.value;
+    /*private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
-    private final int rotationAxis = XboxController.Axis.kRightX.value;
+    private final int rotationAxis = XboxController.Axis.kRightX.value;*/
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
+    private final JoystickButton zeroGyro = new JoystickButton(driver, 4);
     //private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kX.value);
 
     /* Subsystems */
@@ -34,11 +35,17 @@ public class RobotContainer {
         //Sets Axis of Driving & Field Relative
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
-                s_Swerve, 
+                /*s_Swerve, 
                 () -> driver.getRawAxis(translationAxis), 
                 () -> driver.getRawAxis(strafeAxis),
                 () -> driver.getRawAxis(rotationAxis),
-                () -> false)); 
+                () -> false)); */
+                  s_Swerve, 
+                () -> driver.getRawAxis(1), 
+                () -> driver.getRawAxis(0),
+                () -> driver.getRawAxis(2),
+                () -> false,
+                () -> driver.getRawAxis(3))); 
 
         configureButtonBindings();
     }
@@ -49,8 +56,10 @@ public class RobotContainer {
         zeroGyro.onTrue(s_Swerve.zeroHeading());
     }
 
-    //Autonomous Command (Empty)
-    public Command getAutonomousCommand() {
-        return null;
-    }
+    //Autonomous Command (In progress)
+    /*public Command getAutonomousCommand() {
+        return Commands.runOnce(
+        
+        );
+    }*/
 }

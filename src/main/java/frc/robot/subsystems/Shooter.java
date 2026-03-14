@@ -10,6 +10,7 @@ public class Shooter {
   //Lifted from "Splinter"
 
   private GenericHID ControlHandlerD;
+  public boolean ShooterAutonmous;
 
   SparkMax m_launchWheel;
   SparkMax m_feedWheel;
@@ -33,6 +34,20 @@ public class Shooter {
 
     //Sets Toggle to A button
     if(ControlHandlerD.getRawButton(1))
+    {
+      m_feedWheel.set(0.65); 
+    }
+    else 
+    {
+      m_feedWheel.set(0);
+    }
+  }
+  public void shooterAutoPeriodic() {
+    //Sets Launch Speed to 0.8
+     m_launchWheel.set(0.8);
+
+    //Sets Feed Wheel Speed if ShooterAutonomous is true
+    if(ShooterAutonmous)
     {
       m_feedWheel.set(0.65); 
     }

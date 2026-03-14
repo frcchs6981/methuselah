@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // This runs the autonomous command selected by your RobotContainer class.
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -58,7 +58,9 @@ public class Robot extends TimedRobot {
     }
   }
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    m_Shooter.shooterAutoPeriodic();
+  }
 
   @Override
   public void disabledInit() {}
