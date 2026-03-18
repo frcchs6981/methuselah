@@ -45,6 +45,10 @@ public class Shooter {
     {
       m_launchWheel.set(0.6);
     }
+    else
+    {
+      m_launchWheel.set(0);
+    }
 
     //Sets Toggle to A button
     if(ControlHandlerD.getRawButton(1))
@@ -57,16 +61,16 @@ public class Shooter {
     }
   }
   public void shooterAutoPeriodic() {
-    //Sets Launch Speed to 0.8
-     m_launchWheel.set(0.8);
 
-    //Sets Feed Wheel Speed if ShooterAutonomous is true
+    //Sets Feed Wheel and Launch Wheel speed if ShooterAutonomous is true
     if(ShooterAutonmous)
     {
+      m_launchWheel.set(0.8);
       m_feedWheel.set(0.65); 
     }
     else 
     {
+      m_launchWheel.set(0);
       m_feedWheel.set(0);
     }
   }
