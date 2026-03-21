@@ -1,5 +1,9 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -57,9 +61,15 @@ public class RobotContainer {
     }
 
     //Autonomous Command (In progress)
-    /*public Command getAutonomousCommand() {
-        return Commands.runOnce(
+    public Command getAutonomousCommand()
+    {
+        PathPlannerPath MethuselahPathTraj = PathPlannerPath.fromChoreoTrajectory("MethuselahPath");
+        try{
         
-        );
-    }*/
+        return AutoBuilder.followPath(MethuselahPathTraj);
+        } catch (Exception e) {
+        DriverStation.reportError("Error: " + e.getMessage(), e.getStackTrace());
+        return Commands.none();
+        }
+    }
 }

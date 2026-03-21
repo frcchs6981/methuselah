@@ -11,9 +11,14 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+
 //import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
-
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -56,10 +61,7 @@ public class Swerve extends SubsystemBase {
                                     rotation, 
                                     getHeading()
                                 )
-                              : new ChassisSpeeds( // Drives Robot Relative
-                                    translation.getX(), 
-                                    translation.getY(), 
-                                    rotation)
+                              : getChassisSpeeds(translation, rotation)
                                 );
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
         
@@ -78,6 +80,27 @@ public class Swerve extends SubsystemBase {
             mod.setDesiredState(desiredStates[mod.moduleNumber], false);
         }
     }
+
+public ChassisSpeeds getChassisSpeeds(Translation2d translation, double rotation) 
+{
+    ChassisSpeeds speeds = new ChassisSpeeds(
+      translation.getX(), 
+      translation.getY(), 
+      rotation
+      );
+       /* // Convert to module states
+        SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
+        // Front left module state
+        SwerveModuleState frontLeft = moduleStates[0];
+        // Front right module state
+        SwerveModuleState frontRight = moduleStates[1];
+        // Back left module state
+        SwerveModuleState backLeft = moduleStates[2];
+        // Back right module state
+        SwerveModuleState backRight = moduleStates[3];*/
+
+      return speeds;
+}
 
     public SwerveModuleState[] getModuleStates(){
         SwerveModuleState[] states = new SwerveModuleState[4];
@@ -154,5 +177,39 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
         swerveModLock.unlock();
+    }
+        RobotConfig config; {
+    try{
+      config = RobotConfig.fromGUISettings();
+    } catch (Exception e) {
+      // Handle exception as needed
+      e.printStackTrace();
+    }
+
+    // Configure AutoBuilder last
+    AutoBuilder.configure(
+            this::getPose, // Robot pose supplier
+            this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            (speeds, feedforwards) -> drive(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+            ),
+            config, // The robot configuration
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements
+    
+        );
     }
 }

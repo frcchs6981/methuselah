@@ -1,14 +1,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import com.revrobotics.spark.*;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
 
 public class Intake {
   //Lifted from "Splinter" & "Timber"
