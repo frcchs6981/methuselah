@@ -5,7 +5,6 @@ import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -28,7 +27,11 @@ public class RobotContainer {
     //private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kX.value);
 
     /* Subsystems */
-    private final Swerve s_Swerve = new Swerve();
+    private static final Swerve s_Swerve = new Swerve();
+
+    public static Swerve getSwerve() {
+        return s_Swerve; 
+    }
 
     /* Shooter Button */
     //private final JoystickButton ShootyMcShootface = new JoystickButton(driver, XboxController.Button.kB.value);
@@ -63,13 +66,12 @@ public class RobotContainer {
     //Autonomous Command (In progress)
     public Command getAutonomousCommand()
     {
-        PathPlannerPath MethuselahPathTraj = PathPlannerPath.fromChoreoTrajectory("MethuselahPath");
         try{
-        
-        return AutoBuilder.followPath(MethuselahPathTraj);
+            PathPlannerPath MethuselahPathTraj = PathPlannerPath.fromChoreoTrajectory("Methuselah");
+            return AutoBuilder.followPath(MethuselahPathTraj);
         } catch (Exception e) {
-        DriverStation.reportError("Error: " + e.getMessage(), e.getStackTrace());
-        return Commands.none();
+            DriverStation.reportError("Error: " + e.getMessage(), e.getStackTrace());
+            return Commands.none();
         }
     }
 }

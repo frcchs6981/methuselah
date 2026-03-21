@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.lib.math.Conversions;
 import frc.robot.CTREConfigs;
 import frc.robot.Constants;
-import frc.robot.Robot;
 
 public class SwerveModule {
     public int moduleNumber;

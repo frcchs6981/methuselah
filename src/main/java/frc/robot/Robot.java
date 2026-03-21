@@ -4,9 +4,15 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+//import frc.robot.Constants.Swerve;
 import frc.robot.subsystems.Shooter;
 
 //Automatically set to run. See old versions of code for additional details.
@@ -18,6 +24,10 @@ public class Robot extends TimedRobot {
 
   private Shooter m_Shooter;
   private RobotContainer m_robotContainer;
+
+  public Robot() {
+    super(); 
+  }
 
   @Override
   public void robotInit() {
@@ -31,7 +41,7 @@ public class Robot extends TimedRobot {
   //Runs at every robot packet in all modes (at the end of mode specific periodic), for diagnostics.
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler (polls buttons, adds, runs, removes, commands, and runns subsystem periodic() methods). Must be called.
+    // Runs the Scheduler (polls buttons, adds, runs, removes, commands, and runns subsystem periodic() methods). Must be called
     CommandScheduler.getInstance().run();
   }
 
@@ -50,7 +60,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // This runs the autonomous command selected by your RobotContainer class.
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
