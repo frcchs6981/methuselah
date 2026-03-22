@@ -27,11 +27,11 @@ public class TeleopSwerve extends Command {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
-        this.translationSup = translationSup;
-        this.strafeSup = strafeSup;
-        this.rotationSup = rotationSup;
-        this.robotCentricSup = robotCentricSup;
-        this.SpeedSup = SpeedSup;
+        this.translationSup = translationSup; //gp 1
+        this.strafeSup = strafeSup; //gp 0
+        this.rotationSup = rotationSup; //gp 4
+        this.robotCentricSup = robotCentricSup; //false
+        this.SpeedSup = SpeedSup; //gp 3
     }
 
     @Override
@@ -39,9 +39,10 @@ public class TeleopSwerve extends Command {
         //Uses values from TeleopSwerve() to drive
         
         /* Get Values, Deadband*/
-        double translationVal = MathUtil.applyDeadband(-translationSup.getAsDouble(), Constants.stickDeadband ) * (1 - SpeedSup.getAsDouble());
-        double strafeVal = MathUtil.applyDeadband(-strafeSup.getAsDouble(), Constants.stickDeadband) * (1 - SpeedSup.getAsDouble());
-        double rotationVal = MathUtil.applyDeadband(-rotationSup.getAsDouble(), Constants.stickDeadband) * (1 - SpeedSup.getAsDouble());
+        double CoolHeckinMult = 1 - (0.721738 * Math.log10(16.66 * SpeedSup.getAsDouble()));
+        double translationVal = MathUtil.applyDeadband(-translationSup.getAsDouble(), Constants.stickDeadband ) * CoolHeckinMult;
+        double strafeVal = MathUtil.applyDeadband(-strafeSup.getAsDouble(), Constants.stickDeadband) * CoolHeckinMult;
+        double rotationVal = MathUtil.applyDeadband(-rotationSup.getAsDouble(), Constants.stickDeadband) * CoolHeckinMult;
 
         ChassisSpeeds speeds = ChassisSpeeds.fromRobotRelativeSpeeds(new ChassisSpeeds(translationVal, strafeVal, rotationVal), Rotation2d.fromDegrees(RobotContainer.getSwerve().getYaw())); 
         /* Drive */

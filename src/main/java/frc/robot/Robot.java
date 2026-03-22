@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
   }
   @Override
   public void autonomousPeriodic() {
-    m_Shooter.shooterAutoPeriodic();
+    m_Shooter.shooterAutoPeriodic(false);
   }
 
   @Override

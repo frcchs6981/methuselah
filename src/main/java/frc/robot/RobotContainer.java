@@ -17,25 +17,17 @@ public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
 
-    /* Drive Controls */
-    /*private final int translationAxis = XboxController.Axis.kLeftY.value;
-    private final int strafeAxis = XboxController.Axis.kLeftX.value;
-    private final int rotationAxis = XboxController.Axis.kRightX.value;*/
-
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, 5);
+    private final JoystickButton zeroGyro = new JoystickButton(driver, 2);
     //private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kX.value);
 
     /* Subsystems */
     private static final Swerve s_Swerve = new Swerve();
+    public static Swerve getSwerve() { return s_Swerve; }
 
-    public static Swerve getSwerve() {
-        return s_Swerve; 
-    }
-    
 
     /* Shooter Button */
-    //private final JoystickButton ShootyMcShootface = new JoystickButton(driver, XboxController.Button.kB.value);
+    //private final JoystickButton ShootyMcShootface = new JoystickButton();
 
     //Contains subsystems, OI devices, and commands.
     public RobotContainer() {
@@ -43,28 +35,17 @@ public class RobotContainer {
         //Sets Axis of Driving & Field Relative
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
-                /*s_Swerve, 
-                () -> driver.getRawAxis(translationAxis), 
-                () -> driver.getRawAxis(strafeAxis),
-                () -> driver.getRawAxis(rotationAxis),
-                () -> false)); */
                   s_Swerve, 
-                () -> driver.getRawAxis(1), 
-                () -> driver.getRawAxis(0),
-                () -> driver.getRawAxis(2),
-                () -> false,
-                () -> driver.getRawAxis(3))); 
+                () -> driver.getRawAxis(1), //FB move
+                () -> driver.getRawAxis(0), //LR move
+                () -> driver.getRawAxis(4), //Rot
+                () -> false, //RobotCentric
+                () -> driver.getRawAxis(3))); //Speed 
 
-        configureButtonBindings();
-    }
-
-    //Configures our one and only button binding
-    private void configureButtonBindings() {
-        //Button for resetting the Gyro
         zeroGyro.onTrue(s_Swerve.zeroHeading());
     }
 
-    //Autonomous Command (In progress)
+    //TODO: Autonomous Command
     public Command getAutonomousCommand()
     {
         try{

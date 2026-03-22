@@ -35,7 +35,7 @@ boolean SolenoidActive;
   public void intakePeriodic() {
 
     //Sets Toggle to A button
-    if(ControlHandlerD.getRawButton(2))
+    if(ControlHandlerD.getRawButton(5))
     {
         m_Rintake1.set(0.65); 
         m_Rintake2.set(0.65);

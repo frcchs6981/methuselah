@@ -14,7 +14,7 @@ import frc.lib.util.SwerveModuleConstants;
 import frc.lib.util.COTSTalonFXSwerveConstants.WCP;
 
 public final class Constants {
-    public static final double stickDeadband = 0.08; // Tells controller that it's at 0 if it's around than 0 by a little.
+    public static final double stickDeadband = 0.05; // Tells controller that it's at 0 if it's around than 0 by a little.
 
     public static final class Swerve {
     

@@ -56,7 +56,7 @@ public class Swerve extends SubsystemBase {
         };
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
-        swerveModLock.unlock();
+        //swerveModLock.unlock();
     }
 
     public double getYaw() {
