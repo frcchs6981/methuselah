@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 //import frc.robot.Constants.Swerve;
 import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj.Timer;
 
 //Automatically set to run. See old versions of code for additional details.
 public class Robot extends TimedRobot {
@@ -24,6 +25,8 @@ public class Robot extends TimedRobot {
 
   private Shooter m_Shooter;
   private RobotContainer m_robotContainer;
+
+  private Timer autoDelay = new Timer();
 
   public Robot() {
     super(); 
@@ -61,16 +64,21 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     // This runs the autonomous command selected by your RobotContainer class.
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = null;
     RobotContainer.getSwerve().runSetupPhase();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+      autoDelay.reset();
+      autoDelay.start();
   }
   @Override
   public void autonomousPeriodic() {
-    m_Shooter.shooterAutoPeriodic(false);
+    if(autoDelay.get() < 2) {m_Shooter.shooterAutoPeriodic(true, false);}
+    else if(autoDelay.get() <= 8) {m_Shooter.shooterAutoPeriodic(true, true);}
+    else {m_Shooter.shooterAutoPeriodic(false, false);}
   }
 
   @Override

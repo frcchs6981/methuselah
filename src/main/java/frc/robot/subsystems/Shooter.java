@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import com.revrobotics.spark.*;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import edu.wpi.first.wpilibj.Timer;
 
 
 public class Shooter {
@@ -32,7 +33,7 @@ public class Shooter {
     //m_launchWheel.set(ControlHandlerD.getRawAxis(2)*0.8);
  
     //Sets Launch Speed
-    m_launchWheel.set(ControlHandlerD.getRawAxis(2));
+    m_launchWheel.set((0.721738 * Math.log10(16.66 * ControlHandlerD.getRawAxis(2))));
 
     //Sets Toggle to A button
     if(ControlHandlerD.getRawButton(1))
@@ -44,13 +45,16 @@ public class Shooter {
       m_feedWheel.set(0);
     }
   }
-  public void shooterAutoPeriodic(boolean ShooterAutonmous) {
+  public void shooterAutoPeriodic(boolean top, boolean bottom) {
 
     //Sets Feed Wheel and Launch Wheel speed if ShooterAutonomous is true
-    if(ShooterAutonmous)
+    if(top)
     {
-      m_launchWheel.set(0.8);
-      m_feedWheel.set(0.65); 
+      m_launchWheel.set(1);
+      
+      if(bottom){
+      m_feedWheel.set(0.7); 
+      }
     }
     else 
     {

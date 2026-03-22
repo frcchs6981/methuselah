@@ -49,7 +49,7 @@ public class RobotContainer {
     public Command getAutonomousCommand()
     {
         try{
-            PathPlannerPath MethuselahPathTraj = PathPlannerPath.fromChoreoTrajectory("Methuselah");
+            PathPlannerPath MethuselahPathTraj = PathPlannerPath.fromPathFile("Example Path");
             return AutoBuilder.followPath(MethuselahPathTraj);
         } catch (Exception e) {
             DriverStation.reportError("Error: " + e.getMessage(), e.getStackTrace());

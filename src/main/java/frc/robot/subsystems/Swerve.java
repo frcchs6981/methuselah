@@ -88,7 +88,10 @@ public class Swerve extends SubsystemBase {
 
 public void runSetupPhase()
 {
-    try{ config = RobotConfig.fromGUISettings(); } 
+    //TODO: Fix Try-Catch
+    try { 
+         config = RobotConfig.fromGUISettings(); 
+    } 
     catch (Exception e) { e.printStackTrace(); }
 
     // Configure AutoBuilder last
