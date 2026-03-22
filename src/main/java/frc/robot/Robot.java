@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
     
     // Instantiates our Shooter
     m_Shooter = new Shooter();
-    m_Shooter.shooterInit();
+    m_Shooter.shooterInit(); 
   }
   //Runs at every robot packet in all modes (at the end of mode specific periodic), for diagnostics.
   @Override
@@ -61,6 +61,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     // This runs the autonomous command selected by your RobotContainer class.
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    RobotContainer.getSwerve().runSetupPhase();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

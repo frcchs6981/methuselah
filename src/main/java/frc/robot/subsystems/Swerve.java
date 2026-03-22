@@ -38,6 +38,8 @@ public class Swerve extends SubsystemBase {
     public ADIS16470_IMU gyro;
 
     private final ReentrantLock swerveModLock = new ReentrantLock();
+
+    public RobotConfig config;
     
 
     public Swerve() {
@@ -54,6 +56,11 @@ public class Swerve extends SubsystemBase {
         };
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
+        swerveModLock.unlock();
+    }
+
+    public double getYaw() {
+        return gyro.getAngle(); 
     }
 
     public void drive(ChassisSpeeds speeds, boolean isOpenLoop) {
@@ -78,6 +85,39 @@ public class Swerve extends SubsystemBase {
             mod.setDesiredState(desiredStates[mod.moduleNumber], false);
         }
     }
+
+public void runSetupPhase()
+{
+    try{ config = RobotConfig.fromGUISettings(); } 
+    catch (Exception e) { e.printStackTrace(); }
+
+    // Configure AutoBuilder last
+    AutoBuilder.configure(
+            this::getPose, // Robot pose supplier
+            (pose) -> setPose(pose), // Method to reset odometry (will be called if your auto has a starting pose)
+            this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            (speeds, feedforwards) -> drive(speeds, false), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+            ),
+            config, // The robot configuration
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements
+    
+        );
+}
+
 
 public ChassisSpeeds getChassisSpeeds() 
 {
@@ -177,9 +217,10 @@ public ChassisSpeeds getChassisSpeeds()
             }, 
             this);
     }
-
+    
     @Override
-    public void periodic(){
+    public void periodic()
+    {
         swerveOdometry.update(getGyroYaw(), getModulePositions());
 
         swerveModLock.lock();
@@ -188,44 +229,5 @@ public ChassisSpeeds getChassisSpeeds()
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
-        swerveModLock.unlock();
-    }
-        RobotConfig config; {
-    try{
-      config = RobotConfig.fromGUISettings(); 
-    } catch (Exception e) {
-      // Handle exception as needed
-      e.printStackTrace();
-    }
-
-    // Configure AutoBuilder last
-    AutoBuilder.configure(
-            this::getPose, // Robot pose supplier
-            (pose) -> setPose(pose), // Method to reset odometry (will be called if your auto has a starting pose)
-            this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            (speeds, feedforwards) -> drive(speeds, false), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
-            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
-            ),
-            config, // The robot configuration
-            () -> {
-              // Boolean supplier that controls when the path will be mirrored for the red alliance
-              // This will flip the path being followed to the red side of the field.
-              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-              var alliance = DriverStation.getAlliance();
-              if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
-              }
-              return false;
-            },
-            this // Reference to this subsystem to set requirements
-    
-        );
-    }
-
-    public double getYaw() {
-        return gyro.getAngle(); 
     }
 }

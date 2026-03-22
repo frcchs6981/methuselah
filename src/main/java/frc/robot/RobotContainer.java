@@ -32,6 +32,7 @@ public class RobotContainer {
     public static Swerve getSwerve() {
         return s_Swerve; 
     }
+    
 
     /* Shooter Button */
     //private final JoystickButton ShootyMcShootface = new JoystickButton(driver, XboxController.Button.kB.value);
@@ -73,5 +74,5 @@ public class RobotContainer {
             DriverStation.reportError("Error: " + e.getMessage(), e.getStackTrace());
             return Commands.none();
         }
-    }
+    } 
 }
