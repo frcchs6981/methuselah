@@ -45,7 +45,7 @@ public class Shooter {
       m_feedWheel.set(0);
     }
   }
-  public void shooterAutoPeriodic(boolean top, boolean bottom) {
+ /* public void shooterAutoPeriodic(boolean top, boolean bottom) {
 
     //Sets Feed Wheel and Launch Wheel speed if ShooterAutonomous is true
     if(top)
@@ -61,5 +61,5 @@ public class Shooter {
       m_launchWheel.set(0);
       m_feedWheel.set(0);
     }
-  }
+  }*/
 }

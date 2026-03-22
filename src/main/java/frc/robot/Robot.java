@@ -63,12 +63,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // This runs the autonomous command selected by your RobotContainer class.
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+   // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     //m_autonomousCommand = null;
     RobotContainer.getSwerve().runSetupPhase();
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    /*if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
       autoDelay.reset();
@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     if(autoDelay.get() < 2) {m_Shooter.shooterAutoPeriodic(true, false);}
     else if(autoDelay.get() <= 8) {m_Shooter.shooterAutoPeriodic(true, true);}
-    else {m_Shooter.shooterAutoPeriodic(false, false);}
+    else {m_Shooter.shooterAutoPeriodic(false, false);}*/
   }
 
   @Override

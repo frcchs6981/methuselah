@@ -90,7 +90,7 @@ public void runSetupPhase()
 {
     //TODO: Fix Try-Catch
     try { 
-         config = RobotConfig.fromGUISettings(); 
+        config = RobotConfig.fromGUISettings(); 
     } 
     catch (Exception e) { e.printStackTrace(); }
 

@@ -46,7 +46,7 @@ public class RobotContainer {
     }
 
     //TODO: Autonomous Command
-    public Command getAutonomousCommand()
+    /*public Command getAutonomousCommand()
     {
         try{
             PathPlannerPath MethuselahPathTraj = PathPlannerPath.fromPathFile("Example Path");
@@ -55,5 +55,5 @@ public class RobotContainer {
             DriverStation.reportError("Error: " + e.getMessage(), e.getStackTrace());
             return Commands.none();
         }
-    } 
+    } */
 }
