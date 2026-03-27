@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Intake;
+
 
 //Automatically set to run. See old versions of code for additional details.
 public class Robot extends TimedRobot {
@@ -17,6 +19,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private Shooter m_Shooter;
+  private Intake m_Intake;
   private RobotContainer m_robotContainer;
 
   @Override
@@ -27,6 +30,11 @@ public class Robot extends TimedRobot {
     // Instantiates our Shooter
     m_Shooter = new Shooter();
     m_Shooter.shooterInit();
+
+    // Instantiates our Intake
+    m_Intake = new Intake();
+    m_Intake.intakeInit();
+
   }
   //Runs at every robot packet in all modes (at the end of mode specific periodic), for diagnostics.
   @Override
